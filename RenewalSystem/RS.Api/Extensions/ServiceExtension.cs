@@ -1,22 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RS.BAL.Helpers;
-using RS.BAL.Services;
-using RS.DAL.Contractors;
-using RS.DAL.DataAccess;
-using RS.DAL.Repositories;
-
+﻿using Elsa;
+using Elsa.Persistence.EntityFramework.Core.Extensions;
+using Elsa.Persistence.EntityFramework.SqlServer;
 namespace RS.Api.Extensions
 {
     public static class ServiceExtension
     {
-        public static void ConfigureService(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureElsaService(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<RSDbContext>(option => option.UseSqlServer(configuration.GetConnectionString("MigrationDb")));
-            services.AddAutoMapper(typeof(AutoMapperProfile));
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<CustomerService>();
-            services.AddScoped<ProductService>();
-            services.AddScoped<SubscriptionService>();
+            services.AddElsa(option => option.UseEntityFrameworkPersistence(config => config.UseSqlServer(configuration.GetConnectionString("MigrationDb")))
+                                             .AddQuartzTemporalActivities()
+                                             .AddEmailActivities(email =>
+                                             {
+                                                 email.Host = configuration["Elsa:Smtp:Host"];
+                                                 email.Port = int.Parse(configuration["Elsa:Smtp:Port"]!);
+                                                 email.DefaultSender = configuration["Elsa:Smtp:Username"];
+                                                 email.UserName = configuration["Elsa:Smtp:Username"];
+                                                 email.Password = configuration["Elsa:Smtp:Password"];
+                                                 email.RequireCredentials = true;
+                                             })
+                                             .AddActivitiesFrom(typeof(Program).Assembly)
+                                             .AddWorkflowsFrom(typeof(Program).Assembly));
         }
     }
 }

@@ -5,7 +5,7 @@ namespace RS.DAL.DataAccess
 {
     public class RSDbContext : DbContext
     {
-        public RSDbContext(DbContextOptions options) : base(options) { }
+        public RSDbContext(DbContextOptions<RSDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
