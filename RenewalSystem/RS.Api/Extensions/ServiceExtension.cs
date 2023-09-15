@@ -5,7 +5,7 @@ namespace RS.Api.Extensions
 {
     public static class ServiceExtension
     {
-        public static void ConfigureElsaService(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureElsaServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddElsa(option => option.UseEntityFrameworkPersistence(config => config.UseSqlServer(configuration.GetConnectionString("MigrationDb")))
                                              .AddQuartzTemporalActivities()
