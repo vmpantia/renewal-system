@@ -1,18 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using RS.BAL.Services;
-using RS.DAL.Contractors;
-using RS.DAL.DataAccess;
-using RS.DAL.Repositories;
-
+using RS.Api.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<RSDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("")));
-
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<CustomerService>();
-builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<SubscriptionService>();
+builder.Services.ConfigureService(builder.Configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
