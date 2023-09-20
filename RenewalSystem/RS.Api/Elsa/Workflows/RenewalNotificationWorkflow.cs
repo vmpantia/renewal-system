@@ -17,7 +17,7 @@ namespace RS.Api.Elsa.Workflows
         public void Build(IWorkflowBuilder builder)
         {
             builder.Timer(Duration.FromSeconds(10))
-                   .Then<DataForRenewalActivity>()
+                   .Then<GetAllDataForRenewalActivity>()
                    .ForEach(context => context.GetVariable<ICollection<SubscriptionDto>>("subscriptions")!,
                             interate => interate.SendEmail(activity => SetupEmail(activity)));
         }

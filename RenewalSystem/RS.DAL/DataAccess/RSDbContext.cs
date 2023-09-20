@@ -10,6 +10,8 @@ namespace RS.DAL.DataAccess
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<Offer> Offers { get; set; }
+        public DbSet<Definition> Definitions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +34,18 @@ namespace RS.DAL.DataAccess
                 .HasOne(data => data.Customer)
                 .WithMany(data => data.Subscriptions)
                 .HasForeignKey(data => data.CustomerId);
+
+            modelBuilder.Entity<Subscription>()
+                .HasMany(data => data.Offers)
+                .WithOne(data => data.Subscription)
+                .HasForeignKey(data => data.SubscriptionId)
+                .IsRequired(false);
+
+            modelBuilder.Entity<Offer>()
+                .HasOne(data => data.Subscription)
+                .WithMany(data => data.Offers)
+                .HasForeignKey(data => data.SubscriptionId)
+                .IsRequired(false);
         }
     }
 }

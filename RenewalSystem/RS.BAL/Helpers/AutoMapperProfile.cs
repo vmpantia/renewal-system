@@ -17,6 +17,8 @@ namespace RS.BAL.Helpers
                 .ForMember(dto => dto.ProductName, opt => opt.MapFrom(src => src.Product.Name))
                 .ForMember(dto => dto.ProductDescription, opt => opt.MapFrom(src => src.Product.Description))
                 .ForMember(dto => dto.Status, opt => opt.MapFrom(src => src.Status.GetDescription()));
+            CreateMap<Definition, DefinitionDto>()
+                .ForMember(dto => dto.Status, opt => opt.MapFrom(src => src.Status.GetDescription()));
         }
     }
 }

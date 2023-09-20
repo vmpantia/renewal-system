@@ -15,6 +15,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<CustomerService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<SubscriptionService>();
+builder.Services.AddScoped<DefinitionService>();
 
 // Add elsa workflow services to the container
 builder.Services.ConfigureElsaServices(builder.Configuration);

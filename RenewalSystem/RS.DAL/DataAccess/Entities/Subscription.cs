@@ -17,5 +17,6 @@ namespace RS.DAL.DataAccess.Entities
 
         public virtual Customer Customer { get; set; }
         public virtual Product Product { get; set; }
+        public virtual IEnumerable<Offer> Offers { get; set; }
     }
 }
